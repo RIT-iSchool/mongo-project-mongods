@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file
 from pymongo import MongoClient
 from bson import ObjectId
 import gridfs
+from bson.son import SON
 
 app = Flask(__name__)
 client = MongoClient('mongodb://localhost:27017/')
@@ -16,9 +17,29 @@ def home():
 @app.route('/search_posts', methods=['POST'])
 def search_posts():
     query = request.form.get('query')
-    regex_query = { "$regex": ".*" + query + ".*", "$options": "i" }
-    results = list(db.posts.find({ "description": regex_query }))
+    field = request.form.get('field')
+    results = []
+
+    if field == 'description':
+        regex_query = { "$regex": ".*" + query + ".*", "$options": "i" }
+        results = list(db.posts.find({ "description": regex_query }))
+    elif field == 'postLoc':
+        lat, lng, distance_in_meters = [float(x) for x in query.split(',')]
+        location_query = {
+            "postLoc": {
+                "$near": {
+                    "$geometry": {
+                        "type": "Point",
+                        "coordinates": [lat, lng]
+                    },
+                    "$maxDistance": distance_in_meters
+                }
+            }
+        }
+        results = list(db.GeoPosts.find(location_query))
+
     return render_template('results.html', posts=results)
+
 
 @app.route('/show_post/<post_id>')
 def show_post(post_id):
