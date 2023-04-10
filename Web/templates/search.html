@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Search Posts</title>
+  </head>
+  <body>
+    <h1>Search Posts</h1>
+    <form method="post" action="{{ url_for('search_posts') }}">
+      <label for="query">Search Query:</label>
+      <input type="text" id="query" name="query" required>
+      <br>
+      <label for="field">Search Field:</label>
+      <select id="field" name="field">
+        <option value="description">Description</option>
+      </select>
+      <br>
+      <button type="submit">Search</button>
+    </form>
+  </body>
+</html>
