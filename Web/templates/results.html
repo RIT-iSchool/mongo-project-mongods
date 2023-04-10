@@ -1,21 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <meta charset="utf-8">
     <title>Search Results</title>
   </head>
   <body>
-    <h1>Search Results</h1>
-    {% if posts %}
-      <ul>
-        {% for post in posts %}
-          <li><a href="{{ url_for('show_post', post_id=post['post_id']) }}">{{ post["name"] }}</a></li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No posts found.</p>
-    {% endif %}
-    <br>
-    <a href="{{ url_for('home') }}">Return to Home Page</a>
+    <div class="container">
+      <h1>Search Posts</h1>
+      <form method="post" action="{{ url_for('search_posts') }}">
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" name="query" required>
+        <br>
+        <label for="field">Search Field:</label>
+        <select id="field" name="field">
+          <option value="description">Description</option>
+          <option value="postLoc" title="Enter latitude, longitude, distance (in meters)">Location</option>
+        </select>
+        <br>
+        <button type="submit">Search</button>
+      </form>
+      <hr>
+      <h2>Search Results</h2>
+      {% if posts %}
+        <ul>
+          {% for post in posts %}
+            <li>
+              <div class="post">
+                <h3 class="post-title"><a href="{{ url_for('show_post', post_id=post['post_id']) }}">{{ post["name"] }}</a></h3>
+                <p class="post-description">{{ post["description"][:50] }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No posts found.</p>
+      {% endif %}
+      <a href="{{ url_for('home') }}" class="btn btn-primary">Return to Home Page</a>
+    </div>
   </body>
 </html>

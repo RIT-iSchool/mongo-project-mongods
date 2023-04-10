@@ -13,14 +13,13 @@ fs = gridfs.GridFS(db)
 def home():
     return render_template('search.html')
 
-@app.route('/search_posts', methods=['POST'])
+@app.route('/search_posts', methods=['GET', 'POST'])
 def search_posts():
     query = request.form.get('query')
     field = request.form.get('field')
     results = []
-
     if field == 'description':
-        regex_query = { "$regex": ".*" + query + ".*", "$options": "i" }
+        regex_query = { "$regex": "\\b" + query + ".*\\b", "$options": "i" }
         results = list(db.posts.find({ "description": regex_query }))
     elif field == 'postLoc':
         lat, lng, distance_in_meters = [float(x) for x in query.split(',')]

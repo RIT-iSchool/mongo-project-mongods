@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <meta charset="utf-8">
     <title>Search Posts</title>
   </head>
   <body>
-    <h1>Search Posts</h1>
-    <form method="post" action="{{ url_for('search_posts') }}">
-      <label for="query">Search Query:</label>
-      <input type="text" id="query" name="query" required>
-      <br>
-      <label for="field">Search Field:</label>
-      <select id="field" name="field">
-        <option value="description">Description</option>
-        <option value="postLoc">Location</option>
-      </select>
-      <br>
-      <button type="submit">Search</button>
-    </form>
+    <div id="container">
+      <h1>Search Posts</h1>
+      <form method="post" action="{{ url_for('search_posts') }}">
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" name="query" required>
+        <label for="field">Search Field:</label>
+        <select id="field" name="field">
+          <option value="description">Description</option>
+          <option value="postLoc" title="Enter latitude, longitude, distance (in meters)">Location</option>
+        </select>
+        <button type="submit">Search</button>
+      </form>
+    </div>
   </body>
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <meta charset="utf-8">
     <title>{{ post["name"] }}</title>
   </head>
@@ -35,6 +36,8 @@
         <button type="submit">Add Comment</button>
     </form>
     <br>
-    <a href="{{ url_for('home') }}">Return to Home Page</a>
+    <a onclick="window.history.back()" class="button">Return to Search Results</a>
+    <br>
+    <a href="{{ url_for('home') }}" class="button">Return to Home Page</a>
   </body>
 </html>
