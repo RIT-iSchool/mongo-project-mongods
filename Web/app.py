@@ -1,12 +1,11 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, redirect, url_for
 from pymongo import MongoClient
 from bson import ObjectId
 import gridfs
-from bson.son import SON
 
 app = Flask(__name__)
 client = MongoClient('mongodb://localhost:27017/')
-db = client['project']
+db = client['mongoproject']
 posts = db['posts']
 fs = gridfs.GridFS(db)
 
@@ -43,12 +42,13 @@ def search_posts():
 
 @app.route('/show_post/<post_id>')
 def show_post(post_id):
+    comments = db.comments.find({'post_id': post_id})
     post = db.posts.find_one({ 'post_id': post_id })
     if post:
-        filename = 'test/' + str(post_id) + '.jpg'
+        filename = 'images/test/' + str(post_id) + '.jpg'
         image = fs.find_one({"filename": filename})
         if image:
-            return render_template('post.html', post=post, image=image)
+            return render_template('post.html', post=post, image=image, comments=comments)
         else:
             return render_template('post.html', post=post)
     else:
@@ -59,6 +59,15 @@ def show_post(post_id):
 def download_image(image_id):
     image = fs.get(ObjectId(image_id))
     return send_file(image, mimetype='image/jpg')
+
+@app.route('/add_comment/<post_id>', methods=['POST'])
+def add_comment(post_id):
+    username = request.form.get('username')
+    comment_text = request.form.get('comment')
+    comment = {'post_id': post_id, 'text': comment_text, 'username': username}
+    db.comments.insert_one(comment)
+    return redirect(url_for('show_post', post_id=post_id))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

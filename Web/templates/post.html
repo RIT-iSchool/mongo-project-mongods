@@ -10,12 +10,31 @@
       <li>City: {{ post["city"] }}</li>
       <li>Latitude: {{ post["lat"] }}</li>
       <li>Longitude: {{ post["lng"] }}</li>
+      <li>Likes: {{ post["numbr_likes"]|int }}</li>
     </ul>
     <p>{{ post["description"] }}</p>
     {% if image %}
     <img src="{{ url_for('download_image', image_id=image['_id']) }}" alt="post_image" class="post-image">
     {% else %}
       <p>No image available.</p>
-    {% endif %}    
+    {% endif %}
+    {% if comments %}
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in comments %}
+            <li><strong>{{ comment['username'] }}:</strong> {{ comment['text'] }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <h2>Add Comment</h2>
+    <form method="post" action="{{ url_for('add_comment', post_id=post['post_id']) }}">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="comment">Comment:</label>
+        <textarea id="comment" name="comment"></textarea>
+        <button type="submit">Add Comment</button>
+    </form>
+    <br>
+    <a href="{{ url_for('home') }}">Return to Home Page</a>
   </body>
 </html>
