@@ -2,16 +2,20 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{{ post["description"] }}</title>
+    <title>{{ post["name"] }}</title>
   </head>
   <body>
-    <h1>{{ post["description"] }}</h1>
+    <h1>{{ post["name"] }}</h1>
     <ul>
-      <li>Name: {{ post["name"] }}</li>
       <li>City: {{ post["city"] }}</li>
       <li>Latitude: {{ post["lat"] }}</li>
       <li>Longitude: {{ post["lng"] }}</li>
     </ul>
-    <p>{{ post["content"] }}</p>
+    <p>{{ post["description"] }}</p>
+    {% if image %}
+    <img src="{{ url_for('download_image', image_id=image['_id']) }}" alt="post_image" class="post-image">
+    {% else %}
+      <p>No image available.</p>
+    {% endif %}    
   </body>
 </html>
