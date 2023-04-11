@@ -18,6 +18,9 @@
 
 - **Jinja2**: Jinja2 is used to allow embedding Python code within HTML templates to generate dynamic content.
 
+We used the `Instagram - 42M Posts 1.2M Locations 4.5M Profiles | Kaggle` dataset.
+We originally had 1.4k posts and images extracted. More data was required for the project, but the original dataset was seemingly deleted and we only had access to our previous versions of the extracted data. We were able to extract around 9k posts and their corresponding images for the project.
+
 Our project is a Python Flask web application that interacts with a MongoDB database. The application allows users to search and view Instagram posts, as well as add comments to posts. The application uses the pandas library to read data from a CSV file and insert it into a MongoDB collection. It also uses the gridfs module to store and retrieve image files from the database.
 
 The application has the following routes:
