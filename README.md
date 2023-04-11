@@ -18,6 +18,8 @@
 
 - **Jinja2**: Jinja2 is used to allow embedding Python code within HTML templates to generate dynamic content.
 
+Our project is a Python Flask web application that interacts with a MongoDB database. The application allows users to search and view Instagram posts, as well as add comments to posts. The application uses the pandas library to read data from a CSV file and insert it into a MongoDB collection. It also uses the gridfs module to store and retrieve image files from the database.
+
 The application has the following routes:
 
 - `'/'`: Renders the `search.html` template, which is the home page of the application.
@@ -25,3 +27,5 @@ The application has the following routes:
 - `'/show_post/<post_id>'`: Retrieves a post based on the post ID in the URL and renders the `post.html` template with the post details, image, and comments.
 - `'/download_image/<image_id>'`: Retrieves an image file from the GridFS by its ID and sends it as a file download to the client.
 - `'/add_comment/<post_id>'`: Handles a form submission with a comment for a post. It inserts the comment into the comments collection and redirects back to the `'/show_post'` route for the corresponding post.
+
+The application also includes JavaScript code for creating a geospatial index on the postLoc field. Additionally, the application includes an HTML template that defines the layout and rendering logic for displaying post details, images, and comments.
